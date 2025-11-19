@@ -1,0 +1,39 @@
+# 🚨 ARCHIVOS DE CONFIGURACIÓN CON CREDENCIALES
+config.properties
+*.properties
+!/src/main/resources/config.properties.example
+
+# 🏗️ ARCHIVOS DE CONSTRUCCIÓN DE NETBEANS
+/target/
+/dist/
+/build/
+/nbproject/private/
+*.war
+*.ear
+
+# 📝 ARCHIVOS DE IDE
+.nb-gradle/
+.nbattrs
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# 🔧 ARCHIVOS DE SISTEMA
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.temp
+
+# 📊 ARCHIVOS DE BASE DE DATOS
+*.db
+*.sqlite
+*.mdb
+
+# 📋 ARCHIVOS DE LOG
+*.log
+logs/
+
+# 🗂️ ARCHIVOS DE MAVEN (por si acaso)
+dependency-reduced-pom.xml

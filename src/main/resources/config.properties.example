@@ -1,0 +1,8 @@
+# ARCHIVO DE EJEMPLO - Renombrar a config.properties y completar
+
+# Credenciales de tu base de datos MySQL LOCAL
+database.user=tu_usuario_mysql
+database.password=tu_password_mysql
+
+# URL de conexión (opcional)
+# database.url=jdbc:mysql://localhost:3306/medtrack?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&nullNamePatternMatchesAll=true
