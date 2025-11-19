@@ -93,10 +93,9 @@ copy src\main\resources\config.properties.example src\main\resources\config.prop
 
 - Ajusta `src\main\resources\config.properties` con:
 
-```properties
-database.url=jdbc:mysql://127.0.0.1:3306/medtrack?useSSL=false&serverTimezone=UTC
-database.user=medtrack_user
-database.password=medtrack123
+```properties 
+archivo
+
 ```
 
 > No subas credenciales al repositorio; mantén `config.properties` localmente.
@@ -137,9 +136,7 @@ Notas:
 - `mvn` no reconocido → añade Maven `bin` al `PATH`.
 - `Access denied for user` → revisa usuario/contraseña y permisos en MySQL.
 - `No suitable driver found` → confirma que `mysql-connector` está en `target\\dependency` y que usas `-cp` correctamente.
-- `mvnw.cmd` falla con `"}" was unexpected at this time.` → esto aparece si el proyecto está en una ruta con paréntesis/espacios; solución: mover el proyecto a una ruta sin paréntesis (ej. `C:\projects\MDTrack`) o usar Maven global.
 
----
 
 ## 9) Checklist (rápido)
 
@@ -153,6 +150,3 @@ Notas:
 - [ ] `mvn dependency:copy-dependencies` → `mysql-connector` en `target\dependency`
 - [ ] `java -cp ...` → UI abre sin excepción
 
----
-
-Si quieres, lo commitéo ahora en `ramaEH`. Si prefieres revisarlo primero, dime y no hago el commit.
