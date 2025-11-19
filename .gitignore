@@ -2,6 +2,7 @@
 config.properties
 *.properties
 !/src/main/resources/config.properties.example
+.env
 
 # 🏗️ ARCHIVOS DE CONSTRUCCIÓN DE NETBEANS
 /target/

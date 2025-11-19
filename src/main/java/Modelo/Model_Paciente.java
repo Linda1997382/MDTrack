@@ -3,6 +3,7 @@ package Modelo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
@@ -258,19 +259,41 @@ public class Model_Paciente {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                out.put("id_paciente", rs.getInt("id_paciente"));
-                out.put("id_empresa", rs.getObject("id_empresa"));
-                out.put("nombres", rs.getString("nombres"));
-                out.put("apellido_paterno", rs.getString("apellido_paterno"));
-                out.put("apellido_materno", rs.getString("apellido_materno"));
-                out.put("fecha_nacimiento", rs.getDate("fecha_nacimiento"));
-                out.put("sexo", rs.getString("sexo"));
-                out.put("direccion", rs.getString("direccion"));
-                out.put("telefono", rs.getString("telefono"));
-                out.put("correo_electronico", rs.getString("correo_electronico"));
-                out.put("curp", rs.getString("curp"));
-                out.put("empresa_nombre", rs.getString("empresa_nombre"));
-                out.put("estado", rs.getString("estado"));
+                // Intentar construir el Map con metadata; si falla, usar un fallback por columnas conocidas
+                try {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    int cols = meta.getColumnCount();
+                    for (int i = 1; i <= cols; i++) {
+                        String label = meta.getColumnLabel(i);
+                        if (label == null || label.isEmpty()) {
+                            label = meta.getColumnName(i);
+                        }
+                        Object value = rs.getObject(i);
+                        out.put(label.toLowerCase(), value);
+                    }
+                } catch (Exception metaEx) {
+                    System.err.println("Error leyendo metadata en obtenerPacientePorId: " + metaEx.getMessage());
+                    metaEx.printStackTrace();
+                    // Fallback: leer columnas conocidas de forma segura
+                    try {
+                        safePut(out, "id_paciente", rs);
+                        safePut(out, "id_empresa", rs);
+                        safePut(out, "nombres", rs);
+                        safePut(out, "apellido_paterno", rs);
+                        safePut(out, "apellido_materno", rs);
+                        safePut(out, "fecha_nacimiento", rs);
+                        safePut(out, "sexo", rs);
+                        safePut(out, "direccion", rs);
+                        safePut(out, "telefono", rs);
+                        safePut(out, "correo_electronico", rs);
+                        safePut(out, "curp", rs);
+                        safePut(out, "empresa_nombre", rs);
+                        safePut(out, "estado", rs);
+                    } catch (Exception readEx) {
+                        System.err.println("Error fallback leer columnas en obtenerPacientePorId: " + readEx.getMessage());
+                        readEx.printStackTrace();
+                    }
+                }
             }
 
         } catch (SQLException e) {
@@ -278,6 +301,57 @@ public class Model_Paciente {
             e.printStackTrace();
         } finally {
             cerrarRecursos(rs, stmt, conn);
+        }
+
+        // Añadir aliases/keys legadas y formatos amistosos para compatibilidad con formularios
+        if (!out.isEmpty()) {
+            String nombres = safe(out.get("nombres"));
+            String ap = safe(out.get("apellido_paterno"));
+            String am = safe(out.get("apellido_materno"));
+            String nombreCompleto = (nombres + " " + ap + " " + am).trim().replaceAll(" +", " ");
+            out.put("nombre", nombreCompleto);
+            out.put("Nombre", nombreCompleto);
+            out.put("nombre completo", nombreCompleto);
+            out.put("Nombre completo", nombreCompleto);
+
+            out.put("apellido paterno", ap);
+            out.put("Apellido paterno", ap);
+            out.put("apellido materno", am);
+            out.put("Apellido materno", am);
+
+            Object fechaObj = out.get("fecha_nacimiento");
+            String fechaFmt = "";
+            try {
+                if (fechaObj instanceof java.sql.Date) {
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    fechaFmt = df.format((java.sql.Date) fechaObj);
+                } else if (fechaObj != null) {
+                    fechaFmt = fechaObj.toString();
+                }
+            } catch (Exception ex) {
+                fechaFmt = "";
+            }
+            out.put("fecha de nacimiento", fechaFmt);
+            out.put("Fecha de nacimiento", fechaFmt);
+
+            String empresa = safe(out.get("empresa_nombre"));
+            out.put("empresa", empresa);
+            out.put("Empresa", empresa);
+            out.put("EmpresaNombre", empresa);
+
+            String telefono = safe(out.get("telefono"));
+            out.put("Telefono", telefono);
+            out.put("telefono", telefono);
+        }
+
+        // Debug: imprimir las claves y valores devueltos (útil para diagnosticar cargas intermitentes)
+        try {
+            System.err.println("[DEBUG] obtenerPacientePorId - valores devueltos para id=" + idPaciente + ":");
+            for (Map.Entry<String, Object> e : out.entrySet()) {
+                System.err.println("  key='" + e.getKey() + "' -> '" + String.valueOf(e.getValue()) + "'");
+            }
+        } catch (Exception dbg) {
+            // no bloquear por debug
         }
 
         return out.isEmpty() ? null : out;
@@ -563,6 +637,15 @@ public class Model_Paciente {
             } catch (NumberFormatException e) {
                 stmt.setNull(index, Types.INTEGER);
             }
+        }
+    }
+
+    private static void safePut(Map<String, Object> out, String columnLabel, ResultSet rs) {
+        try {
+            Object v = rs.getObject(columnLabel);
+            out.put(columnLabel.toLowerCase(), v);
+        } catch (Exception e) {
+            // Ignorar si la columna no existe o falla al leer
         }
     }
 
