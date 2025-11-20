@@ -34,6 +34,8 @@ public class Form_Home extends javax.swing.JPanel {
         spTbCitas.setVerticalScrollBar(new ScrollBar());
         JPanel p = new JPanel();
         spTbCitas.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        // Cargar citas al inicio (como antes) — si el empleado resulta Administrador
+        // se volverá a recargar desde procesarEmpleado para mostrar todas las citas
         cargarCitasDeHoy();
         
         // Configurar renderer para la tabla
@@ -260,6 +262,10 @@ public class Form_Home extends javax.swing.JPanel {
         new javax.swing.SwingWorker<List<Object[]>, Void>() {
             @Override
             protected List<Object[]> doInBackground() throws Exception {
+                // Si el empleado es administrador, devolver todas las citas del día
+                if (empleadoCache != null && "Administrador".equalsIgnoreCase(empleadoCache.getPuesto())) {
+                    return Model_Citas.obtenerCitasDelDiaTodos();
+                }
                 return Model_Citas.obtenerCitasDelDia(empleadoId);
             }
 
@@ -345,6 +351,8 @@ public class Form_Home extends javax.swing.JPanel {
             pCards.setVisible(true);
             btnConsultar2.setVisible(true);
             cargarKPIsMedico();
+            // Cargar las citas una vez sabemos el puesto del empleado
+            cargarCitasDeHoy();
         }
         
         panelBorder1.revalidate();
