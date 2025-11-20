@@ -103,6 +103,12 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void setForm(JComponent com) {
+        String cname = com == null ? "null" : com.getClass().getName();
+        System.out.println("[NAV] setForm: " + cname);
+        // Mostrar diálogo visible si se está navegando al form 'Ver consulta' para depuración
+        if (cname != null && cname.endsWith("Form_Formulario_Consulta_Ver")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Navegando a: " + cname, "DEBUG navegación", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
         mainPanel.removeAll();
         mainPanel.add(com, java.awt.BorderLayout.CENTER);
         mainPanel.repaint();

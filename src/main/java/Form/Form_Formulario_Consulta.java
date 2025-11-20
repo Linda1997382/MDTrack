@@ -1001,6 +1001,54 @@ public class Form_Formulario_Consulta extends javax.swing.JPanel {
             }
         }
     }.execute();
+}
+
+    // Permite cargar los datos de una consulta existente por su id
+    public void cargarConsultaPorId(int consultaId) {
+        new javax.swing.SwingWorker<Map<String, Object>, Void>() {
+            @Override
+            protected Map<String, Object> doInBackground() throws Exception {
+                return Modelo.Model_Consultas.obtenerConsultaPorId(consultaId);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    Map<String, Object> d = get();
+                    if (d == null) {
+                        return;
+                    }
+
+                    // Campos básicos
+                    txtFecha.setText(val(d, "fecha_registro"));
+                    jepMotivoConsulta.setText(val(d, "motivo"));
+
+                    // Signos vitales (si existen en el mapa)
+                    txtFrecuenciaCardiaca.setText(val(d, "frecuencia_cardiaca"));
+                    txtFrecuenciaRespiratoria.setText(val(d, "frecuencia_respiratoria"));
+                    txtTensionArterial.setText(val(d, "tension_arterial"));
+                    txtTemperatura.setText(val(d, "temperatura"));
+                    txtOximetria.setText(val(d, "oximetria"));
+
+                    // Exploración física / PEEA / diagnóstico / observaciones
+                    jepPEEA.setText(val(d, "sintomas"));
+                    jepDiagnostico.setText(val(d, "diagnostico"));
+                    jepObservaciones.setText(val(d, "indicaciones_medicas"));
+                    jepPronostico.setText(val(d, "pronostico"));
+                    jepTratamiento.setText(val(d, "medicacion_prescrita"));
+
+                    // Somatometría
+                    txtPeso.setText(val(d, "peso"));
+                    txtEstatura.setText(val(d, "altura"));
+
+                    // Marcar como existente/guardada
+                    consultaGuardada = true;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }.execute();
     
     // Cargar datos del médico
     new javax.swing.SwingWorker<Map<String, Object>, Void>() {
