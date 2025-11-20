@@ -46,6 +46,9 @@ public class Form_Formulario_Pacientes extends javax.swing.JPanel {
 
         // Configurar fecha por defecto
         dpFechaNacimiento.setDate(LocalDate.now().minusYears(30));
+
+        // Nota: se permite ingresar cualquier carácter; la validación
+        // se realiza al guardar y mostrará un error si hay letras.
     }
 
     @SuppressWarnings("unchecked")
@@ -398,7 +401,13 @@ public class Form_Formulario_Pacientes extends javax.swing.JPanel {
 
             datos.put("direccion", direccionTxt.getText().trim());
             datos.put("correo_electronico", EMailTxt.getText().trim());
-            datos.put("telefono", telTxt.getText().trim());
+            String telefono = telTxt.getText().trim();
+            if (!telefono.isEmpty() && !telefono.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "El teléfono sólo puede contener números", "Error", JOptionPane.ERROR_MESSAGE);
+                telTxt.requestFocus();
+                return;
+            }
+            datos.put("telefono", telefono);
 
             // Empresa
             Object empresaSeleccionada = cbxEmpresa.getSelectedItem();

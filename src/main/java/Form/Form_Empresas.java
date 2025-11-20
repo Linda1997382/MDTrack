@@ -277,6 +277,20 @@ public class Form_Empresas extends javax.swing.JPanel {
             JOptionPane.WARNING_MESSAGE);
             
         if (r == JOptionPane.YES_OPTION) {
+            java.util.Map<String,Integer> deps = Model_Empresas.contarDependencias(id);
+            int empleados = deps.getOrDefault("empleados", 0);
+            int pacientes = deps.getOrDefault("pacientes", 0);
+
+            if (empleados > 0 || pacientes > 0) {
+                StringBuilder msg = new StringBuilder();
+                msg.append("No es posible eliminar la empresa porque tiene las siguientes dependencias:\n");
+                if (empleados > 0) msg.append("- Empleados activos vinculados: ").append(empleados).append("\n");
+                if (pacientes > 0) msg.append("- Pacientes vinculados: ").append(pacientes).append("\n");
+                msg.append("Retire o reasigne esas referencias antes de eliminar.");
+                JOptionPane.showMessageDialog(this, msg.toString(), "Eliminación bloqueada", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             boolean eliminado = Model_Empresas.eliminarEmpresa(id);
             if (eliminado) {
                 JOptionPane.showMessageDialog(this, "Empresa eliminada correctamente.");
