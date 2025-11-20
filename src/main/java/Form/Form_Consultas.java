@@ -184,11 +184,11 @@ public class Form_Consultas extends javax.swing.JPanel {
     
     if (navigator != null) {
         Form_Formulario_Consulta f = new Form_Formulario_Consulta(
-            pacienteId,   
-            empleadoId    
+            pacienteId,
+            empleadoId
         );
-        f.setNavigator(navigator);    
-        navigator.accept(f);    
+        f.setNavigator(navigator);
+        navigator.accept(f);
     }
 }
 

@@ -1079,6 +1079,21 @@ public class Form_Formulario_Consulta extends javax.swing.JPanel {
 }
     private void guardar() {
         try {
+            // Validación previa: campos obligatorios al guardar una consulta
+            String diag = jepDiagnostico.getText() == null ? "" : jepDiagnostico.getText().trim();
+            String trat = jepTratamiento.getText() == null ? "" : jepTratamiento.getText().trim();
+
+            java.util.List<String> faltan = new java.util.ArrayList<>();
+            if (diag.isEmpty()) faltan.add("Diagnóstico");
+            if (trat.isEmpty()) faltan.add("Tratamiento / Medicación");
+
+            if (!faltan.isEmpty()) {
+                String msg = "No se puede guardar la consulta. Falta(n) \n" + String.join("\n", faltan)
+                        + "\n\nPor favor completa los campos requeridos antes de guardar.";
+                javax.swing.JOptionPane.showMessageDialog(this, msg, "Campos requeridos", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             Map<String, Object> datos = new HashMap<>();
             // CORREGIDO: Usar nombres de campos que existen en la base de datos
             datos.put("id_paciente", pacienteId);
