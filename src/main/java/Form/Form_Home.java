@@ -262,9 +262,12 @@ public class Form_Home extends javax.swing.JPanel {
         new javax.swing.SwingWorker<List<Object[]>, Void>() {
             @Override
             protected List<Object[]> doInBackground() throws Exception {
-                // Si el empleado es administrador, devolver todas las citas del día
-                if (empleadoCache != null && "Administrador".equalsIgnoreCase(empleadoCache.getPuesto())) {
-                    return Model_Citas.obtenerCitasDelDiaTodos();
+                // Si el empleado es administrador o enfermero, devolver todas las citas del día
+                if (empleadoCache != null) {
+                    String puestoCache = empleadoCache.getPuesto();
+                    if ("Administrador".equalsIgnoreCase(puestoCache) || "Enfermero".equalsIgnoreCase(puestoCache)) {
+                        return Model_Citas.obtenerCitasDelDiaTodos();
+                    }
                 }
                 return Model_Citas.obtenerCitasDelDia(empleadoId);
             }
@@ -347,6 +350,10 @@ public class Form_Home extends javax.swing.JPanel {
         if (!"Medico".equalsIgnoreCase(puesto) && !"Administrador".equalsIgnoreCase(puesto)) {
             pCards.setVisible(false);
             btnConsultar2.setVisible(false);
+            // Si el puesto es Enfermero, recargar las citas para mostrar todas del día
+            if ("Enfermero".equalsIgnoreCase(puesto)) {
+                cargarCitasDeHoy();
+            }
         } else {
             pCards.setVisible(true);
             btnConsultar2.setVisible(true);
