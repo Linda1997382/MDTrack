@@ -211,7 +211,8 @@ private void hacerLogin() {
                     }
                 } else {
                     javax.swing.JOptionPane.showMessageDialog(Login.this, 
-                        "Usuario o contraseña incorrectos.\n\nPrueba con:\nUsuario: admin / Contraseña: admin123\nO usa el correo: admin@medtrack.com");
+                        "Usuario o contraseña incorrectos.\n\nIntente denuevo\n");
+                        // "Usuario o contraseña incorrectos.\n\nPrueba con:\nUsuario: admin / Contraseña: admin123\nO usa el correo: admin@medtrack.com");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
