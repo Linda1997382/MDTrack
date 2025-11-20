@@ -539,6 +539,49 @@ public class Form_Formulario_HistoriaClinica extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            // Validación: si una casilla está marcada, el campo asociado no debe quedar vacío
+            if (chbxDiabetes.isSelected() && txtDiabetes.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Diabetes asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDiabetes.requestFocus();
+                return;
+            }
+            if (chbxHipertension.isSelected() && txtHipertension.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hipertensión asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHipertension.requestFocus();
+                return;
+            }
+            if (chbxCardiopatias.isSelected() && txtCardiopatias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cardiopatías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCardiopatias.requestFocus();
+                return;
+            }
+            if (chbxNeuropatias.isSelected() && txtNeuropatias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Neuropatías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtNeuropatias.requestFocus();
+                return;
+            }
+            if (chbxOncologicos.isSelected() && txtOncologicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Oncológicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOncologicos.requestFocus();
+                return;
+            }
+            if (chbxHematologicos.isSelected() && txtHematologicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hematológicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHematologicos.requestFocus();
+                return;
+            }
+            if (chbxTranstornosPsiquiatricos.isSelected() && txtTranstornosPsiquiatricos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Trastornos Psiquiátricos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtTranstornosPsiquiatricos.requestFocus();
+                return;
+            }
+            if (chbxOtros.isSelected() && txtOtros.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo 'Otros' asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOtros.requestFocus();
+                return;
+            }
+
+            // Si pasa validación, guardar y avanzar
             guardar();
             Form_Formulario_HCPatologicos next = new Form_Formulario_HCPatologicos(pacienteId, empleadoId);
             next.setNavigator(navigator);
