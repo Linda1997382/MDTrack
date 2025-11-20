@@ -930,9 +930,11 @@ public class Form_Formulario_Consulta extends javax.swing.JPanel {
                     fecha = "fecha";
                 }
 
-                String safeNombre = nombre.replaceAll("[^\\p{L}\\p{N}_\\- ]", "").replace(" ", "_");
+                // Nombre y fecha para archivo: reemplazar espacios por '_' y separadores inválidos por '-'
+                String fileNombre = nombre.replaceAll("\\s+", "_");
+                String fileFecha = fecha.replaceAll("[:/\\\\]", "-");
                 File destino = new File(System.getProperty("user.home"),
-                        "Receta_" + safeNombre + "_" + fecha + ".pdf");
+                    "Receta_" + fileNombre + "_" + fileFecha + ".pdf");
 
                 generarRecetaPDF(destino);
                 JOptionPane.showMessageDialog(this, "Receta generada:\n" + destino.getAbsolutePath());
