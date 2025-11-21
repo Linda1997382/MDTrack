@@ -20,6 +20,34 @@ public class Model_Empresas {
 
     // ===================== GUARDAR EMPRESA =====================
     public static boolean guardarEmpresa(Map<String,Object> datos) {
+        // VALIDACIONES ANTES de insertar
+        String nombre = safe(datos.get("nombre"));
+        String responsable = safe(datos.get("nombre_responsable"));
+        String correo = safe(datos.get("correo_responsable"));
+        
+        // Validar campos obligatorios
+        if (nombre.isEmpty()) {
+            System.err.println("Error: El nombre de la empresa es obligatorio");
+            return false;
+        }
+        
+        if (responsable.isEmpty()) {
+            System.err.println("Error: El nombre del responsable es obligatorio");
+            return false;
+        }
+        
+        // Validar que el nombre no exista
+        if (nombreEmpresaExiste(nombre, null)) {
+            System.err.println("Error: Ya existe una empresa con ese nombre");
+            return false;
+        }
+        
+        // Validar email si se proporcionó
+        if (!correo.isEmpty() && !validarEmail(correo)) {
+            System.err.println("Error: Formato de correo inválido");
+            return false;
+        }
+
         String sql = "INSERT INTO empresa (nombre, correo_responsable, nombre_responsable, telefono_responsable, direccion) " +
                      "VALUES (?, ?, ?, ?, ?)";
 
@@ -31,9 +59,9 @@ public class Model_Empresas {
             conn = Conexion.conectar();
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            stmt.setString(1, safe(datos.get("nombre")));
-            stmt.setString(2, safe(datos.get("correo_responsable")));
-            stmt.setString(3, safe(datos.get("nombre_responsable")));
+            stmt.setString(1, nombre);
+            stmt.setString(2, correo);
+            stmt.setString(3, responsable);
             stmt.setString(4, safe(datos.get("telefono_responsable")));
             stmt.setString(5, safe(datos.get("direccion")));
 
@@ -52,6 +80,14 @@ public class Model_Empresas {
             cerrarRecursos(rs, stmt, conn);
         }
         return false;
+    }
+
+    // ===================== VALIDAR EMAIL =====================
+    private static boolean validarEmail(String email) {
+        if (email == null || email.trim().isEmpty()) return true; // Email vacío es válido (no obligatorio)
+        
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return email.matches(emailRegex);
     }
 
     // ===================== OBTENER EMPRESA POR ID =====================
@@ -186,6 +222,31 @@ public class Model_Empresas {
 
     // ===================== ACTUALIZAR EMPRESA =====================
     public static boolean actualizarEmpresa(int idEmpresa, Map<String,Object> datos) {
+        // Validaciones para actualización
+        String nombre = safe(datos.get("nombre"));
+        String responsable = safe(datos.get("nombre_responsable"));
+        String correo = safe(datos.get("correo_responsable"));
+        
+        if (nombre.isEmpty()) {
+            System.err.println("Error: El nombre de la empresa es obligatorio");
+            return false;
+        }
+        
+        if (responsable.isEmpty()) {
+            System.err.println("Error: El nombre del responsable es obligatorio");
+            return false;
+        }
+        
+        if (nombreEmpresaExiste(nombre, idEmpresa)) {
+            System.err.println("Error: Ya existe una empresa con ese nombre");
+            return false;
+        }
+        
+        if (!correo.isEmpty() && !validarEmail(correo)) {
+            System.err.println("Error: Formato de correo inválido");
+            return false;
+        }
+
         String sql = "UPDATE empresa SET nombre = ?, correo_responsable = ?, nombre_responsable = ?, telefono_responsable = ?, direccion = ? " +
                      "WHERE id_empresa = ?";
 
@@ -196,9 +257,9 @@ public class Model_Empresas {
             conn = Conexion.conectar();
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, safe(datos.get("nombre")));
-            stmt.setString(2, safe(datos.get("correo_responsable")));
-            stmt.setString(3, safe(datos.get("nombre_responsable")));
+            stmt.setString(1, nombre);
+            stmt.setString(2, correo);
+            stmt.setString(3, responsable);
             stmt.setString(4, safe(datos.get("telefono_responsable")));
             stmt.setString(5, safe(datos.get("direccion")));
             stmt.setInt(6, idEmpresa);

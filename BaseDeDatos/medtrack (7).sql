@@ -6,6 +6,7 @@
 -- Tiempo de generación: 19-11-2025 a las 05:57:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
+USE medtrack_clone;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `medtrack`
 --
-CREATE DATABASE IF NOT EXISTS `medtrack` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `medtrack`;
 
 -- --------------------------------------------------------
 
