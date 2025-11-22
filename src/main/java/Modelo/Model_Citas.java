@@ -139,6 +139,65 @@ public class Model_Citas {
         return citas;
     }
 
+    // ===================== OBTENER TODAS LAS CITAS DEL DÍA (SIN FILTRO POR EMPLEADO) =====================
+    public static List<Object[]> obtenerCitasDelDiaTodos() {
+        List<Object[]> citas = new ArrayList<>();
+        String sql = "SELECT " +
+                     "c.id_cita, " +
+                     "c.id_paciente, " +
+                     "CONCAT(p.nombres, ' ', COALESCE(p.apellido_paterno, ''), ' ', COALESCE(p.apellido_materno, '')) as paciente_nombre, " +
+                     "c.fecha_hora, " +
+                     "CASE WHEN con.id_consulta IS NOT NULL THEN 'Sí' ELSE 'No' END as asistencia " +
+                     "FROM cita c " +
+                     "JOIN paciente p ON c.id_paciente = p.id_paciente " +
+                     "LEFT JOIN consulta con ON c.id_cita = con.id_cita " +
+                     "WHERE DATE(c.fecha_hora) = CURDATE() " +
+                     "ORDER BY c.fecha_hora ASC";
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Conexion.conectar();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            while (rs.next()) {
+                Timestamp fechaHora = rs.getTimestamp("fecha_hora");
+                String fecha = "";
+                String hora = "";
+                
+                if (fechaHora != null) {
+                    LocalDateTime ldt = fechaHora.toLocalDateTime();
+                    fecha = ldt.format(dateFormatter);
+                    hora = ldt.format(timeFormatter);
+                }
+
+                Object[] row = {
+                    rs.getInt("id_cita"),
+                    rs.getInt("id_paciente"),
+                    rs.getString("paciente_nombre"),
+                    fecha,
+                    hora,
+                    rs.getString("asistencia")
+                };
+                citas.add(row);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error obtenerCitasDelDiaTodos: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            cerrarRecursos(rs, stmt, conn);
+        }
+
+        return citas;
+    }
+
     // ===================== HORAS OCUPADAS =====================
     public static List<Time> obtenerHorasOcupadas(LocalDate fecha, Integer idEmpleado) {
         List<Time> horas = new ArrayList<>();

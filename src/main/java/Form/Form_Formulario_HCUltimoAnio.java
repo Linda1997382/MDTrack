@@ -430,6 +430,69 @@ public class Form_Formulario_HCUltimoAnio extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            // Validar casillas marcadas con su texto asociado
+            if (chbxAlteracionesVista.isSelected() && txtAlteracionesVista.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Alteraciones de la vista asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtAlteracionesVista.requestFocus();
+                return;
+            }
+            if (chbxDificultadRespirar.isSelected() && txtDificultadRespirar.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Dificultad para respirar asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDificultadRespirar.requestFocus();
+                return;
+            }
+            if (chbxProblemasAudicion.isSelected() && txtProblemasAudicion.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Problemas de audición asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtProblemasAudicion.requestFocus();
+                return;
+            }
+            if (chbxDolorPecho.isSelected() && txtDolorPecho.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Dolor en el pecho asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDolorPecho.requestFocus();
+                return;
+            }
+            if (chbxPerdidaPeso.isSelected() && txtPerdidaPeso.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Pérdida de peso asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtPerdidaPeso.requestFocus();
+                return;
+            }
+            if (chbxTransfucionesSangre.isSelected() && txtTransfusionSangre.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Transfusiones asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtTransfusionSangre.requestFocus();
+                return;
+            }
+            if (chbxCirugias.isSelected() && txtCirugias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cirugías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCirugias.requestFocus();
+                return;
+            }
+            if (chbxDiarrea.isSelected() && txtDiarrea.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Diarrea asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDiarrea.requestFocus();
+                return;
+            }
+            if (chbxOrinaRojizaOSangre.isSelected() && txtOrinaRojizaOSangre.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Orina rojiza o con sangre asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOrinaRojizaOSangre.requestFocus();
+                return;
+            }
+            if (chbxHecesNegroOSangre.isSelected() && txtHecesNegroOSangre.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Heces negro o con sangre asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHecesNegroOSangre.requestFocus();
+                return;
+            }
+            if (chbxLumbalgia.isSelected() && txtLumbalgia.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Lumbalgia asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtLumbalgia.requestFocus();
+                return;
+            }
+            if (chbxDepresion.isSelected() && txtDepresion.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Depresión asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDepresion.requestFocus();
+                return;
+            }
+
+            // Si pasa validación, guardar y seguir según sexo
             guardar();
             // CORREGIR: Cambiar a int en la llamada
             String sexo = Modelo.Model_Paciente.checarSexoPaciente(pacienteId);

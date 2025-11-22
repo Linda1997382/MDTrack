@@ -169,16 +169,39 @@ public class Form_Consultas_Historial extends javax.swing.JPanel {
             return;
         }
         int modelRow = tbPacientes.convertRowIndexToModel(viewRow);
-        int consultaId = (int) tbPacientes.getModel().getValueAt(modelRow, 0);
+        // Obtener el ID de forma segura (puede venir como Integer, Long o String)
+        int consultaId = -1;
+        try {
+            Object idObj = tbPacientes.getModel().getValueAt(modelRow, 0);
+            consultaId = Integer.parseInt(String.valueOf(idObj));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "ID de consulta inválido: " + ex.getMessage());
+            return;
+        }
 
-        if (navigator != null) {
-            Form_Formulario_Consulta_Ver f = new Form_Formulario_Consulta_Ver(
+        // Depuración rápida: imprimir el id obtenido y el estado del navigator
+        String dbg = "[DEBUG] lblVerMouseClicked: viewRow=" + viewRow + " modelRow=" + modelRow + " consultaId=" + consultaId + " navigator=" + (navigator == null ? "null" : "ok");
+        System.out.println(dbg);
+        // Nota: ya no mostramos el diálogo emergente de depuración.
+
+        if (navigator == null) {
+            // Debug: navigator no fue configurado
+            javax.swing.JOptionPane.showMessageDialog(this, "Navegación no disponible (navigator == null). Revisa el flujo que abre este formulario.");
+            return;
+        }
+
+        try {
+            Form_Formulario_Consulta_Ver_Safe f = new Form_Formulario_Consulta_Ver_Safe(
                 String.valueOf(pacienteId),
                 String.valueOf(empleadoId),
                 String.valueOf(consultaId)
             );
             f.setNavigator(navigator);
             navigator.accept(f);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "No se pudo abrir la consulta: " + ex.getMessage());
         }
     }
 

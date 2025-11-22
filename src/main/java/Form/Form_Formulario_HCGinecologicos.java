@@ -375,6 +375,58 @@ public class Form_Formulario_HCGinecologicos extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            // Validar casillas marcadas con su texto asociado
+            if (chbxPrimeraMenstruacion.isSelected() && txtPrimeraMenstruacion.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Primera Menstruación asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtPrimeraMenstruacion.requestFocus();
+                return;
+            }
+            if (chbxVidaSexualActiva.isSelected() && txtVidaSexualActiva.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Vida Sexual Activa asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtVidaSexualActiva.requestFocus();
+                return;
+            }
+            if (chbxFechaUltimaMenstruacion.isSelected() && txtFechaUltimaMenstruacion.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Fecha Última Menstruación asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtFechaUltimaMenstruacion.requestFocus();
+                return;
+            }
+            if (chbxHemorragias.isSelected() && txtHemorragias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hemorragias asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHemorragias.requestFocus();
+                return;
+            }
+            if (chbxSangradoAnormal.isSelected() && txtSangradoAnormal.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Sangrado Anormal asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtSangradoAnormal.requestFocus();
+                return;
+            }
+            if (chbxCuantosEmbarazos.isSelected() && txtCuantosEmbarazos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Embarazos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCuantosEmbarazos.requestFocus();
+                return;
+            }
+            if (chbxPartos.isSelected() && txtPartos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Partos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtPartos.requestFocus();
+                return;
+            }
+            if (chbxCesareas.isSelected() && txtCesareas.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cesáreas asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCesareas.requestFocus();
+                return;
+            }
+            if (chbxAbortos.isSelected() && txtAbortos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Abortos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtAbortos.requestFocus();
+                return;
+            }
+            if (chbxOtros.isSelected() && txtOtros.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo 'Otros' asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOtros.requestFocus();
+                return;
+            }
+
             guardar();
             Form_Formulario_HCExploracionFisica next = new Form_Formulario_HCExploracionFisica(pacienteId, empleadoId);
             next.setNavigator(navigator);

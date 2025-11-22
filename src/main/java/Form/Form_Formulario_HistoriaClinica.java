@@ -6,6 +6,7 @@ import java.awt.HeadlessException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -538,6 +539,49 @@ public class Form_Formulario_HistoriaClinica extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            // Validación: si una casilla está marcada, el campo asociado no debe quedar vacío
+            if (chbxDiabetes.isSelected() && txtDiabetes.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Diabetes asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDiabetes.requestFocus();
+                return;
+            }
+            if (chbxHipertension.isSelected() && txtHipertension.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hipertensión asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHipertension.requestFocus();
+                return;
+            }
+            if (chbxCardiopatias.isSelected() && txtCardiopatias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cardiopatías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCardiopatias.requestFocus();
+                return;
+            }
+            if (chbxNeuropatias.isSelected() && txtNeuropatias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Neuropatías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtNeuropatias.requestFocus();
+                return;
+            }
+            if (chbxOncologicos.isSelected() && txtOncologicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Oncológicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOncologicos.requestFocus();
+                return;
+            }
+            if (chbxHematologicos.isSelected() && txtHematologicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hematológicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHematologicos.requestFocus();
+                return;
+            }
+            if (chbxTranstornosPsiquiatricos.isSelected() && txtTranstornosPsiquiatricos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Trastornos Psiquiátricos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtTranstornosPsiquiatricos.requestFocus();
+                return;
+            }
+            if (chbxOtros.isSelected() && txtOtros.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo 'Otros' asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOtros.requestFocus();
+                return;
+            }
+
+            // Si pasa validación, guardar y avanzar
             guardar();
             Form_Formulario_HCPatologicos next = new Form_Formulario_HCPatologicos(pacienteId, empleadoId);
             next.setNavigator(navigator);
@@ -639,10 +683,12 @@ public class Form_Formulario_HistoriaClinica extends javax.swing.JPanel {
         datos.put("Medico", lblDoctor.getText());
         datos.put("PacienteId", pacienteId); // Ahora es int
         datos.put("FechaCreacion", fechaActual.format(formatter));
-        datos.put("Abuelos", Integer.valueOf(txtAbuelos.getText()));
-        datos.put("Padres", Integer.valueOf(txtPadres.getText()));
-        datos.put("Hermanos", Integer.valueOf(txtHermanos.getText()));
-        datos.put("Hijos", Integer.valueOf(txtHijos.getText()));
+        // Estos campos pueden contener texto (p. ej. "NO", "diabetes tipo 2")
+        // Guardarlos como cadena para evitar NumberFormatException.
+        datos.put("Abuelos", txtAbuelos.getText().trim());
+        datos.put("Padres", txtPadres.getText().trim());
+        datos.put("Hermanos", txtHermanos.getText().trim());
+        datos.put("Hijos", txtHijos.getText().trim());
         datos.put("Diabetes", txtDiabetes.getText());
         datos.put("Hipertension", txtHipertension.getText());
         datos.put("Cardiopatias", txtCardiopatias.getText());
@@ -702,18 +748,38 @@ public class Form_Formulario_HistoriaClinica extends javax.swing.JPanel {
                     javax.swing.JOptionPane.showMessageDialog(Form_Formulario_HistoriaClinica.this, "Paciente no encontrado.");
                     return;
                 }
-                txtNombre.setText(val(d, "Nombre") + " " + val(d, "Apellido paterno") + " " + val(d, "Apellido materno"));
-                txtFechaNacimiento.setText(val(d, "Fecha de nacimiento"));
-                LocalDate fechaNacimiento = LocalDate.parse(val(d, "Fecha de nacimiento"), formatter);
-                Period periodo = Period.between(fechaNacimiento, fechaActual);
-                int edad = periodo.getYears();
-                txtEdad.setText(Integer.toString(edad));
-                txtEmpresa.setText(val(d, "EmpresaNombre"));
+                // Usar las claves que devuelve Model_Paciente
+                String nombreCompleto = (val(d, "nombres") + " " + val(d, "apellido_paterno") + " " + val(d, "apellido_materno")).trim();
+                txtNombre.setText(nombreCompleto);
+
+                // Fecha de nacimiento puede venir como java.sql.Date o como String
+                Object fechaObj = d.get("fecha_nacimiento");
+                String fechaNacimientoStr = "";
+                if (fechaObj instanceof java.sql.Date) {
+                    fechaNacimientoStr = ((java.sql.Date) fechaObj).toLocalDate().format(formatter);
+                } else if (fechaObj != null) {
+                    fechaNacimientoStr = fechaObj.toString().trim();
+                }
+                txtFechaNacimiento.setText(fechaNacimientoStr);
+                if (!fechaNacimientoStr.isEmpty()) {
+                    try {
+                        LocalDate fechaNacimiento = LocalDate.parse(fechaNacimientoStr, formatter);
+                        Period periodo = Period.between(fechaNacimiento, fechaActual);
+                        int edad = periodo.getYears();
+                        txtEdad.setText(Integer.toString(edad));
+                    } catch (DateTimeParseException dtpe) {
+                        System.err.println("Fecha de nacimiento inválida para paciente id=" + id + ": '" + fechaNacimientoStr + "' - " + dtpe.getMessage());
+                        txtEdad.setText("");
+                    }
+                } else {
+                    txtEdad.setText("");
+                }
+                txtEmpresa.setText(val(d, "empresa_nombre"));
                 txtFecha.setText(fechaActual.format(formatter));
-                txtTel.setText(val(d, "Telefono"));
+                txtTel.setText(val(d, "telefono"));
             } catch (Exception ex) {
                 ex.printStackTrace();
-                javax.swing.JOptionPane.showMessageDialog(Form_Formulario_HistoriaClinica.this, "No se pudo cargar el paciente.");
+                javax.swing.JOptionPane.showMessageDialog(Form_Formulario_HistoriaClinica.this, "No se pudo cargar el paciente: " + ex.getMessage());
             }
         }
     }.execute();

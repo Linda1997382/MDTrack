@@ -298,6 +298,49 @@ public class Model_Empresas {
         }
     }
 
+    // ===================== CONTAR DEPENDENCIAS =====================
+    public static java.util.Map<String,Integer> contarDependencias(int idEmpresa) {
+        java.util.Map<String,Integer> out = new java.util.HashMap<>();
+        String sqlEmpleados = "SELECT COUNT(*) as cnt FROM empleado WHERE id_empresa = ? AND estado = 'Activo'";
+        String sqlPacientes = "SELECT COUNT(*) as cnt FROM paciente WHERE id_empresa = ?";
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Conexion.conectar();
+
+            // Empleados
+            stmt = conn.prepareStatement(sqlEmpleados);
+            stmt.setInt(1, idEmpresa);
+            rs = stmt.executeQuery();
+            int empleados = 0;
+            if (rs.next()) empleados = rs.getInt("cnt");
+            cerrarRecursos(rs, stmt, null);
+
+            // Pacientes
+            stmt = conn.prepareStatement(sqlPacientes);
+            stmt.setInt(1, idEmpresa);
+            rs = stmt.executeQuery();
+            int pacientes = 0;
+            if (rs.next()) pacientes = rs.getInt("cnt");
+
+            out.put("empleados", empleados);
+            out.put("pacientes", pacientes);
+
+        } catch (SQLException e) {
+            System.err.println("Error contarDependencias: " + e.getMessage());
+            e.printStackTrace();
+            out.put("empleados", -1);
+            out.put("pacientes", -1);
+        } finally {
+            cerrarRecursos(rs, stmt, conn);
+        }
+
+        return out;
+    }
+
     // ===================== BUSCAR EMPRESAS =====================
     public static List<Map<String, Object>> buscarEmpresas(String criterio) {
         List<Map<String, Object>> empresas = new ArrayList<>();

@@ -356,6 +356,53 @@ public class Form_Formulario_HCLaborales extends javax.swing.JPanel {
 
     private void lblGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGuardarMouseClicked
         if (navigator != null) {
+            // Validar casillas marcadas con su texto asociado antes de guardar
+            if (chbxActividad.isSelected() && txtActividad.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Actividad asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtActividad.requestFocus();
+                return;
+            }
+            if (chbxDuracion.isSelected() && txtDuracion.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Duración asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDuracion.requestFocus();
+                return;
+            }
+            if (chbxExposicionRuido.isSelected() && txtExposicionRuido.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Exposición a ruido asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtExposicionRuido.requestFocus();
+                return;
+            }
+            if (chbxExposicionQuimicos.isSelected() && txtExposicionQuimicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Exposición a químicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtExposicionQuimicos.requestFocus();
+                return;
+            }
+            if (chbxExposicionRadioactividad.isSelected() && txtExposicionRadioactividad.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Exposición a radioactividad asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtExposicionRadioactividad.requestFocus();
+                return;
+            }
+            if (chbxDermatitisContacto.isSelected() && txtDermatitisContacto.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Dermatitis por contacto asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDermatitisContacto.requestFocus();
+                return;
+            }
+            if (chbxRiesgosSufridos.isSelected() && txtRiesgosSufidos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Riesgos sufridos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtRiesgosSufidos.requestFocus();
+                return;
+            }
+            if (chbxIncapacidades.isSelected() && txtIncapacidades.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Incapacidades asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtIncapacidades.requestFocus();
+                return;
+            }
+            if (chbxOtros.isSelected() && txtOtros.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo 'Otros' asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtOtros.requestFocus();
+                return;
+            }
+
             guardar();
             Form_Pacientes back = new Form_Pacientes(empleadoId);
             back.setNavigator(navigator);

@@ -326,6 +326,7 @@ public class Form_Formulario_HCExploracionFisica extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            if (!validarCamposNumericos()) return;
             guardar();
             Form_Formulario_HCLaborales next = new Form_Formulario_HCLaborales(pacienteId, empleadoId);
             next.setNavigator(navigator);
@@ -398,6 +399,47 @@ public class Form_Formulario_HCExploracionFisica extends javax.swing.JPanel {
                 }
             }
         }.execute();
+    }
+
+    // Valida que determinados campos, si no están vacíos, contengan números válidos
+    private boolean validarCamposNumericos() {
+        // Campos a validar: Peso, Altura, TA, Pulso, SPO2, GlucosaCapilar
+        java.util.List<javax.swing.JTextField> campos = java.util.Arrays.asList(
+            txtPeso, txtAltura, txtTA, txtPulso, txtSPO2, txtGlucosaCapilar
+        );
+
+        java.util.List<String> nombres = java.util.Arrays.asList(
+            "Peso", "Altura", "TA", "Pulso", "SPO2", "Glucosa capilar"
+        );
+
+        for (int i = 0; i < campos.size(); i++) {
+            javax.swing.JTextField campo = campos.get(i);
+            String valor = campo.getText() == null ? "" : campo.getText().trim();
+            if (!valor.isEmpty()) {
+                if (!esNumero(valor)) {
+                    String msg = "El campo '" + nombres.get(i) + "' debe contener sólo números.";
+                    JOptionPane.showMessageDialog(this, msg, "Formato inválido", JOptionPane.WARNING_MESSAGE);
+                    campo.requestFocusInWindow();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean esNumero(String s) {
+        // Acepta números enteros o decimales con punto o coma
+        if (s == null) return false;
+        s = s.trim();
+        if (s.isEmpty()) return false;
+        // Reemplazar coma por punto para parseo
+        s = s.replace(',', '.');
+        try {
+            Double.parseDouble(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

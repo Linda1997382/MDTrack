@@ -624,6 +624,114 @@ public class Form_Formulario_HCPatologicos extends javax.swing.JPanel {
 
     private void lblSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiguienteMouseClicked
         if (navigator != null) {
+            // Validar casillas marcadas con su texto asociado
+            if (chbxDiabetes.isSelected() && txtDiabetes.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Diabetes asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDiabetes.requestFocus();
+                return;
+            }
+            if (chbxAsmaBronquial.isSelected() && txtAsmaBronquial.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Asma Bronquial asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtAsmaBronquial.requestFocus();
+                return;
+            }
+            if (chbxHipertension.isSelected() && txtHipertension.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hipertensión asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHipertension.requestFocus();
+                return;
+            }
+            if (chbxCardiopatias.isSelected() && txtCardiopatias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cardiopatías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCardiopatias.requestFocus();
+                return;
+            }
+            if (chbxHernias.isSelected() && txtHernias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Hernias asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtHernias.requestFocus();
+                return;
+            }
+            if (chbxProblemasOftalmologicos.isSelected() && txtProblemasOftalmologicos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Problemas Oftalmológicos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtProblemasOftalmologicos.requestFocus();
+                return;
+            }
+            if (chbxProblemasOidos.isSelected() && txtProblemasOidos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Problemas de Oídos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtProblemasOidos.requestFocus();
+                return;
+            }
+            if (chbxObstruccionNasal.isSelected() && txtObstruccionNasal.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Obstrucción Nasal asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtObstruccionNasal.requestFocus();
+                return;
+            }
+            if (chbxProblemasPiel.isSelected() && txtProblemasPiel.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Problemas de Piel asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtProblemasPiel.requestFocus();
+                return;
+            }
+            if (chbxDesmayos.isSelected() && txtDesmayos.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Desmayos asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDesmayos.requestFocus();
+                return;
+            }
+            if (chbxDolorCabeza.isSelected() && txtDolorCabeza.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Dolor de Cabeza asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtDolorCabeza.requestFocus();
+                return;
+            }
+            if (chbxLesiones.isSelected() && txtLesiones.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Lesiones asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtLesiones.requestFocus();
+                return;
+            }
+            if (chbxAmputaciones.isSelected() && txtAmputaciones.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Amputaciones asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtAmputaciones.requestFocus();
+                return;
+            }
+            if (chbxInfeccionesUrinarias.isSelected() && txtInfeccionesUrinarias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Infecciones Urinarias asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtInfeccionesUrinarias.requestFocus();
+                return;
+            }
+            if (chbxFracturas.isSelected() && txtFracturas.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Fracturas asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtFracturas.requestFocus();
+                return;
+            }
+            if (chbxCirugias.isSelected() && txtCirugias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Cirugías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtCirugias.requestFocus();
+                return;
+            }
+            if (chbxETS.isSelected() && txtETS.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de ETS asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtETS.requestFocus();
+                return;
+            }
+            if (chbxTranstornosMentales.isSelected() && txtTranstornosMentales.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Trastornos Mentales asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtTranstornosMentales.requestFocus();
+                return;
+            }
+            if (chbxToxicomanias.isSelected() && txtToxicomanias.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Toxicomanías asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtToxicomanias.requestFocus();
+                return;
+            }
+            if (chbxTabaquismo.isSelected() && txtTabaquismo.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Tabaquismo asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtTabaquismo.requestFocus();
+                return;
+            }
+            if (chbxAlcoholismo.isSelected() && txtAlcoholismo.getText().trim().isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Complete el campo de Alcoholismo asociado a la casilla marcada.", "Formulario incompleto", javax.swing.JOptionPane.WARNING_MESSAGE);
+                txtAlcoholismo.requestFocus();
+                return;
+            }
+
+            // Si pasa validación, guardar y avanzar
             guardar();
             Form_Formulario_HCUltimoAnio next = new Form_Formulario_HCUltimoAnio(pacienteId, empleadoId);
             next.setNavigator(navigator);

@@ -251,6 +251,20 @@ public class Form_Citas extends javax.swing.JPanel {
 
         int id = (int) tbCitas.getModel().getValueAt(modelRow, 0);
         String nombre = String.valueOf(tbCitas.getModel().getValueAt(modelRow, 1));
+        // Obtener estado de la cita (columna 7 según carga de datos en Model_Citas)
+        String estado = "";
+        try {
+            Object estObj = tbCitas.getModel().getValueAt(modelRow, 7);
+            if (estObj != null) estado = String.valueOf(estObj);
+        } catch (Exception e) {
+            estado = "";
+        }
+
+        // Validación: no permitir cancelar citas completadas/atendidas
+        if (estado != null && ("Completada".equalsIgnoreCase(estado) || "Atendida".equalsIgnoreCase(estado))) {
+            JOptionPane.showMessageDialog(this, "No se pueden cancelar citas completadas o ya atendidas");
+            return;
+        }
 
         int r = JOptionPane.showConfirmDialog(this,
                 "¿Eliminar la cita de " + nombre + "?",
